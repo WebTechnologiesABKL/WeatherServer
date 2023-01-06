@@ -62,15 +62,13 @@ function createRouter() {
     router.get('/weather', async function(req, res, next){
         try{
             let ok = false;
-            if(req.body) {
-                if (req.body.city && req.body.country && req.body.time) {
-                    ok = true;
-                }
+            if (req.query.city && req.query.country && req.query.time) {
+                ok = true;
             }
             if(ok){
-                let city = req.body.city;
-                let country = req.body.country;
-                let time = new Date(req.body.time);
+                let city = req.query.city;
+                let country = req.query.country;
+                let time = new Date(req.query.time);
                 let weather = 'No weather data!';
 
                 let coordinates = await getCoordinates(city, country);
