@@ -13,8 +13,7 @@ RUN npm install
 # RUN npm ci --only=production
 
 # Bundle app source
-COPY index.js ./
-ADD routers ./
+COPY * ./
 
 CMD [ "node", "index.js" ]
 EXPOSE 8090
