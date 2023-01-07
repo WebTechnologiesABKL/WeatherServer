@@ -14,6 +14,7 @@ RUN npm install
 
 # Bundle app source
 COPY index.js ./
+COPY routers/ ./
 
 CMD [ "node", "index.js" ]
 EXPOSE 8090
