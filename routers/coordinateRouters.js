@@ -4,9 +4,9 @@ const https = require("https");
 const geocodingApiKey = "eca6d24e87b3422dbc4d9b502b5e2cca";
 
 
-async function getWeather(time, lat, lon){
+async function getCoordinates(city, country){
     return new Promise(resolve => {
-        https.get('https://api.brightsky.dev/weather?date=' + time.toISOString() + '&lat=' + lat + '&lon=' + lon, (resp) => {
+        https.get('https://api.geoapify.com/v1/geocode/search?text=' + city + ',' + country + '&apiKey=' + geocodingApiKey, (resp) => {
             let data = '';
 
             // A chunk of data has been received.
@@ -16,52 +16,52 @@ async function getWeather(time, lat, lon){
 
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
-                resolve(JSON.parse(data));
+                let result = JSON.parse(data);
+                resolve({
+                    lat: result.features[0].properties.lat,
+                    lon: result.features[0].properties.lon
+                });
+
             });
 
         }).on("error", (err) => {
             console.log("Error: " + err.message);
             resolve({
                 error: err.message
-            })
-        });
+            });
+        })
     });
 }
 function createRouter() {
     const router = express.Router();
     const owner = "";
 
-    router.get('/weather', async function(req, res, next){
+    router.get('/coordinates', async function(req, res, next){
         try{
             console.log();
             console.log("------------------------------------------------------------------------");
-            console.log("New Request Weather:");
+            console.log("New Request Coordinates:");
             console.log(JSON.stringify(req));
             let ok = false;
-            if (req.query.lat && req.query.lon && req.query.time) {
+            if (req.query.city && req.query.country) {
                 ok = true;
             }
             if(ok){
-                let coordinates = {
-                    lat: req.query.lat,
-                    lon: req.query.lon
-                }
-                let time = new Date(req.query.time);
-                let weather = 'No weather data!';
+                let city = req.query.city;
+                let country = req.query.country;
 
-                console.log("Coordinates");
-                console.log(JSON.stringify(coordinates));
-
-                weather = await getWeather(time, coordinates.lat, coordinates.lon);
-                if(weather.error){
-                    console.log("Error getting weather!");
-                    throw new Error("Error getting weather!");
+                let coordinates = await getCoordinates(city, country);
+                if(await coordinates.error){
+                    console.log("Error transforming city to coordinates!");
+                    throw new Error("Error transforming city to coordinates!");
                 }else{
-                    console.log("WeatherData:");
-                    console.log(JSON.stringify(weather));
+                    console.log("Coordinates");
+                    console.log(JSON.stringify(coordinates));
+
                     console.log("------------------------------------------------------------------------");
                     res.status(200).json({
-                        weather: weather
+                        lat: coordinates.lat,
+                        lon: coordinates.lon
                     });
 
                 }
