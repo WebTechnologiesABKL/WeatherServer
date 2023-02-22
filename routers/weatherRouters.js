@@ -61,6 +61,10 @@ function createRouter() {
 
     router.get('/weather', async function(req, res, next){
         try{
+            console.log();
+            console.log("------------------------------------------------------------------------");
+            console.log("New Request:");
+            console.log(JSON.stringify(req));
             let ok = false;
             if (req.query.city && req.query.country && req.query.time) {
                 ok = true;
@@ -74,26 +78,35 @@ function createRouter() {
                 let coordinates = await getCoordinates(city, country);
                 if(await coordinates.error){
                     console.log("Error transforming city to coordinates!");
-                    throw new Error("Error transforming city to coordinates!")
+                    throw new Error("Error transforming city to coordinates!");
                 }else{
+                    console.log("Coordinates");
+                    console.log(JSON.stringify(coordinates));
 
                     weather = await getWeather(time, coordinates.lat, coordinates.lon);
                     if(weather.error){
                         console.log("Error getting weather!");
-                        throw new Error("Error getting weather!")
+                        throw new Error("Error getting weather!");
                     }else{
+                        console.log("WeatherData:");
+                        console.log(JSON.stringify(weather));
+                        console.log("------------------------------------------------------------------------");
                         res.status(200).json({
                             weather: weather
                         });
+
                     }
                 }
             }else{
+                console.log("Bad Request!");
+                console.log("------------------------------------------------------------------------");
                 res.status(400).json({});
             }
 
         }catch(e){
-            console.error("Unknown Error occurred:")
+            console.error("Unknown Error occurred:");
             console.error(e);
+            console.log("------------------------------------------------------------------------");
             res.status(500).json({});
         }
 
