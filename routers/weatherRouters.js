@@ -1,8 +1,6 @@
 const express = require("express");
 const https = require("https");
 
-const geocodingApiKey = "eca6d24e87b3422dbc4d9b502b5e2cca";
-
 
 async function getWeather(time, lat, lon){
     return new Promise(resolve => {
@@ -36,7 +34,7 @@ function createRouter() {
             console.log();
             console.log("------------------------------------------------------------------------");
             console.log("New Request Weather:");
-            console.log(JSON.stringify(req));
+            console.log(JSON.stringify(req.query));
             let ok = false;
             if (req.query.lat && req.query.lon && req.query.time) {
                 ok = true;

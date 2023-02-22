@@ -41,7 +41,7 @@ function createRouter() {
             console.log();
             console.log("------------------------------------------------------------------------");
             console.log("New Request Coordinates:");
-            console.log(JSON.stringify(req));
+            console.log(JSON.stringify(req.query));
             let ok = false;
             if (req.query.city && req.query.country) {
                 ok = true;
