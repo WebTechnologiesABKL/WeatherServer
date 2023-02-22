@@ -41,8 +41,8 @@ function createRouter() {
             }
             if(ok){
                 let coordinates = {
-                    lat: req.query.lat,
-                    lon: req.query.lon
+                    lat: parseFloat(req.query.lat),
+                    lon: parseFloat(req.query.lon)
                 }
                 let time = new Date(req.query.time);
                 let weather = 'No weather data!';
