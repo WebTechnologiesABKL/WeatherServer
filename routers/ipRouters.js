@@ -4,7 +4,7 @@ const https = require("https");
 
 async function getIP(ip){
     return new Promise(resolve => {
-        https.get('freegeoip.net/json/' + ip, (resp) => {
+        https.get('https://freegeoip.net/json/' + ip, (resp) => {
             let data = '';
 
             // A chunk of data has been received.
