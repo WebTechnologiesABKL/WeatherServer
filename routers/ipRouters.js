@@ -14,12 +14,19 @@ async function getIP(ip){
 
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
-                let result = JSON.parse(data);
-                resolve({
-                    city: data.city,
-                    country: data.country_code
-                });
-
+                try{
+                    console.log(data);
+                    let result = JSON.parse(data);
+                    resolve({
+                        city: data.city,
+                        country: data.country_code
+                    });
+                }catch(e){
+                    console.log("Error: " + e.message);
+                    resolve({
+                        error: e.message
+                    });
+                }
             });
 
         }).on("error", (err) => {
