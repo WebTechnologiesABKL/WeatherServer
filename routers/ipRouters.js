@@ -59,13 +59,12 @@ function createRouter() {
                     console.log("Error transforming ip to city!");
                     throw new Error("Error transforming ip to city!");
                 }else{
-                    console.log("City:");
-                    console.log(JSON.stringify(loc));
+                    console.log(JSON.stringify(await loc));
 
                     console.log("------------------------------------------------------------------------");
                     res.status(200).json({
-                        city: loc.city,
-                        country: loc.country
+                        city: await loc.city,
+                        country: await loc.country
                     });
 
                 }
