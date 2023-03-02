@@ -18,8 +18,8 @@ async function getIP(ip){
                     console.log(data);
                     let result = JSON.parse(data);
                     resolve({
-                        city: data.city,
-                        country: data.countryCode
+                        city: result.city,
+                        country: result.countryCode
                     });
                 }catch(e){
                     console.log("Error: " + e.message);
