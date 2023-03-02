@@ -1,10 +1,10 @@
 const express = require("express");
-const https = require("https");
+const http = require("http");
 
 
 async function getIP(ip){
     return new Promise(resolve => {
-        https.get('https://freegeoip.net/json/' + ip, (resp) => {
+        http.get('http://ip-api.com/json/' + ip, (resp) => {
             let data = '';
 
             // A chunk of data has been received.
@@ -19,7 +19,7 @@ async function getIP(ip){
                     let result = JSON.parse(data);
                     resolve({
                         city: data.city,
-                        country: data.country_code
+                        country: data.countryCode
                     });
                 }catch(e){
                     console.log("Error: " + e.message);
