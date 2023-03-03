@@ -4,6 +4,7 @@ const https = require("https");
 const geocodingApiKey = "eca6d24e87b3422dbc4d9b502b5e2cca";
 
 
+//Yannick Bruns
 async function getCoordinates(city, country){
     return new Promise(resolve => {
         https.get('https://api.geoapify.com/v1/geocode/search?text=' + city + ',' + country + '&apiKey=' + geocodingApiKey, (resp) => {
@@ -32,6 +33,8 @@ async function getCoordinates(city, country){
         })
     });
 }
+
+//Yannick Bruns, Patrick Langkau
 function createRouter() {
     const router = express.Router();
     const owner = "";

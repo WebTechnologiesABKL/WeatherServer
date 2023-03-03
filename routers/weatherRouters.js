@@ -1,7 +1,7 @@
 const express = require("express");
 const https = require("https");
 
-
+//Yannick Bruns
 async function getWeather(time, lat, lon){
     return new Promise(resolve => {
         https.get('https://api.brightsky.dev/weather?date=' + time.toISOString() + '&lat=' + lat + '&lon=' + lon, (resp) => {
@@ -25,6 +25,8 @@ async function getWeather(time, lat, lon){
         });
     });
 }
+
+//Yannick Bruns, Patrick Langkau
 function createRouter() {
     const router = express.Router();
     const owner = "";

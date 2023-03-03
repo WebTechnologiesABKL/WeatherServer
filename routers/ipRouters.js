@@ -1,7 +1,7 @@
 const express = require("express");
 const http = require("http");
 
-
+//Yannick Bruns
 async function getIP(ip){
     return new Promise(resolve => {
         http.get('http://ip-api.com/json/' + ip, (resp) => {
@@ -37,6 +37,8 @@ async function getIP(ip){
         })
     });
 }
+
+//Yannick Bruns, Patrick Langkau
 function createRouter() {
     const router = express.Router();
     const owner = "";
