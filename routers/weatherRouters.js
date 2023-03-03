@@ -2,7 +2,7 @@ const express = require("express");
 const https = require("https");
 
 //Yannick Bruns
-async function getWeather(time, lat, lon){
+async function getWeather(time, lat, lon) {
     return new Promise(resolve => {
         https.get('https://api.brightsky.dev/weather?date=' + time.toISOString() + '&lat=' + lat + '&lon=' + lon, (resp) => {
             let data = '';
@@ -31,8 +31,8 @@ function createRouter() {
     const router = express.Router();
     const owner = "";
 
-    router.get('/weather', async function(req, res, next){
-        try{
+    router.get('/weather', async function (req, res, next) {
+        try {
             console.log();
             console.log("------------------------------------------------------------------------");
             console.log("New Request Weather:");
@@ -41,7 +41,7 @@ function createRouter() {
             if (req.query.lat && req.query.lon && req.query.time) {
                 ok = true;
             }
-            if(ok){
+            if (ok) {
                 let coordinates = {
                     lat: parseFloat(req.query.lat),
                     lon: parseFloat(req.query.lon)
@@ -53,10 +53,10 @@ function createRouter() {
                 console.log(JSON.stringify(coordinates));
 
                 weather = await getWeather(time, coordinates.lat, coordinates.lon);
-                if(weather.error){
+                if (weather.error) {
                     console.log("Error getting weather!");
                     throw new Error("Error getting weather!");
-                }else{
+                } else {
                     console.log("WeatherData:");
                     console.log(JSON.stringify(weather));
                     console.log("------------------------------------------------------------------------");
@@ -65,13 +65,13 @@ function createRouter() {
                     });
 
                 }
-            }else{
+            } else {
                 console.log("Bad Request!");
                 console.log("------------------------------------------------------------------------");
                 res.status(400).json({});
             }
 
-        }catch(e){
+        } catch (e) {
             console.error("Unknown Error occurred:");
             console.error(e);
             console.log("------------------------------------------------------------------------");
@@ -83,4 +83,5 @@ function createRouter() {
 
     return router;
 }
+
 module.exports = createRouter;

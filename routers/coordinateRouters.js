@@ -5,7 +5,7 @@ const geocodingApiKey = "eca6d24e87b3422dbc4d9b502b5e2cca";
 
 
 //Yannick Bruns
-async function getCoordinates(city, country){
+async function getCoordinates(city, country) {
     return new Promise(resolve => {
         https.get('https://api.geoapify.com/v1/geocode/search?text=' + city + ',' + country + '&apiKey=' + geocodingApiKey, (resp) => {
             let data = '';
@@ -39,8 +39,8 @@ function createRouter() {
     const router = express.Router();
     const owner = "";
 
-    router.get('/coordinates', async function(req, res, next){
-        try{
+    router.get('/coordinates', async function (req, res, next) {
+        try {
             console.log();
             console.log("------------------------------------------------------------------------");
             console.log("New Request Coordinates:");
@@ -49,15 +49,15 @@ function createRouter() {
             if (req.query.city && req.query.country) {
                 ok = true;
             }
-            if(ok){
+            if (ok) {
                 let city = req.query.city;
                 let country = req.query.country;
 
                 let coordinates = await getCoordinates(city, country);
-                if(await coordinates.error){
+                if (await coordinates.error) {
                     console.log("Error transforming city to coordinates!");
                     throw new Error("Error transforming city to coordinates!");
-                }else{
+                } else {
                     console.log("Coordinates");
                     console.log(JSON.stringify(coordinates));
 
@@ -68,13 +68,13 @@ function createRouter() {
                     });
 
                 }
-            }else{
+            } else {
                 console.log("Bad Request!");
                 console.log("------------------------------------------------------------------------");
                 res.status(400).json({});
             }
 
-        }catch(e){
+        } catch (e) {
             console.error("Unknown Error occurred:");
             console.error(e);
             console.log("------------------------------------------------------------------------");
@@ -86,4 +86,5 @@ function createRouter() {
 
     return router;
 }
+
 module.exports = createRouter;

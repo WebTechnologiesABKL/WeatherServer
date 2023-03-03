@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 
 //Yannick Bruns
-async function getIP(ip){
+async function getIP(ip) {
     return new Promise(resolve => {
         http.get('http://ip-api.com/json/' + ip, (resp) => {
             let data = '';
@@ -14,14 +14,14 @@ async function getIP(ip){
 
             // The whole response has been received. Print out the result.
             resp.on('end', () => {
-                try{
+                try {
                     console.log(data);
                     let result = JSON.parse(data);
                     resolve({
                         city: result.city,
                         country: result.countryCode
                     });
-                }catch(e){
+                } catch (e) {
                     console.log("Error: " + e.message);
                     resolve({
                         error: e.message
@@ -43,8 +43,8 @@ function createRouter() {
     const router = express.Router();
     const owner = "";
 
-    router.get('/ip', async function(req, res, next){
-        try{
+    router.get('/ip', async function (req, res, next) {
+        try {
             console.log();
             console.log("------------------------------------------------------------------------");
             console.log("New Request IP:");
@@ -53,14 +53,14 @@ function createRouter() {
             if (req.query.ip) {
                 ok = true;
             }
-            if(ok){
+            if (ok) {
                 let ip = req.query.ip;
 
                 let loc = await getIP(ip);
-                if(await loc.error){
+                if (await loc.error) {
                     console.log("Error transforming ip to city!");
                     throw new Error("Error transforming ip to city!");
-                }else{
+                } else {
                     console.log(JSON.stringify(await loc));
 
                     console.log("------------------------------------------------------------------------");
@@ -70,13 +70,13 @@ function createRouter() {
                     });
 
                 }
-            }else{
+            } else {
                 console.log("Bad Request!");
                 console.log("------------------------------------------------------------------------");
                 res.status(400).json({});
             }
 
-        }catch(e){
+        } catch (e) {
             console.error("Unknown Error occurred:");
             console.error(e);
             console.log("------------------------------------------------------------------------");
@@ -88,4 +88,5 @@ function createRouter() {
 
     return router;
 }
+
 module.exports = createRouter;
